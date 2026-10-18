@@ -8,6 +8,7 @@ import { ResponseInterceptor } from './common/response.interceptor';
 import { DatabaseModule } from './database/database.module';
 import { GatewayModule } from './gateway/gateway.module';
 import { RealtimeModule } from './gateway/realtime.module';
+import { HealthModule } from './health/health.module';
 import { MatchesModule } from './matches/matches.module';
 import { MatchmakingModule } from './matchmaking/matchmaking.module';
 import { TournamentsModule } from './tournaments/tournaments.module';
@@ -24,6 +25,7 @@ import { UsersModule } from './users/users.module';
     MatchesModule,
     MatchmakingModule,
     GatewayModule,
+    HealthModule,
   ],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },

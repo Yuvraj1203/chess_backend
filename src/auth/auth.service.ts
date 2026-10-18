@@ -36,6 +36,14 @@ export class AuthService {
     return { user, token };
   }
 
+  /** One-minute JWT, only used to open a Socket.IO connection. */
+  socketToken(user: AuthUser): Promise<string> {
+    return this.jwt.signAsync(
+      { sub: user.id, role: user.role },
+      { expiresIn: '60s' },
+    );
+  }
+
   /** Verifies a JWT and loads the (still existing) user, or returns null. */
   async userFromToken(token: string | undefined): Promise<AuthUser | null> {
     if (!token) return null;

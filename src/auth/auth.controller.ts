@@ -62,4 +62,14 @@ export class AuthController {
   me(@CurrentUser() user: AuthUser) {
     return { user, activeMatchId: this.matches.activeMatchIdFor(user.id) };
   }
+
+  /**
+   * Short-lived token for the Socket.IO handshake. In production the cookie
+   * is first-party to the frontend (REST is proxied), so the browser can't
+   * send it to the API origin directly.
+   */
+  @Get('auth/socket-token')
+  async socketToken(@CurrentUser() user: AuthUser) {
+    return { token: await this.auth.socketToken(user) };
+  }
 }

@@ -44,9 +44,14 @@ export class AppGateway
 
   afterInit(server: Server): void {
     this.realtime.server = server;
-    // Authenticate the handshake: no valid JWT cookie => no connection.
+    // Authenticate the handshake: no valid JWT (socket token or cookie) =>
+    // no connection.
     server.use((socket, next) => {
-      const token = readCookie(socket.handshake.headers.cookie, AUTH_COOKIE);
+      const auth = socket.handshake.auth as { token?: unknown } | undefined;
+      const token =
+        typeof auth?.token === 'string'
+          ? auth.token
+          : readCookie(socket.handshake.headers.cookie, AUTH_COOKIE);
       this.auth
         .userFromToken(token)
         .then((user) => {
